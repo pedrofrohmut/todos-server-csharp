@@ -12,6 +12,7 @@ namespace Web
   public class Startup
   {
     public IConfiguration configuration { get; }
+    private readonly string MyAllowSpecificOrigin = "_myAllowSpecificOrigin";
 
     public Startup(IConfiguration configuration)
     {
@@ -25,6 +26,9 @@ namespace Web
         .AddEntityFrameworkNpgsql()
         .AddDbContext<AppDbContext>(options => 
           options.UseNpgsql(this.configuration["ConnectionString:PostgreSQL:TodosServer"]));
+      // CORS
+      services.AddCors(options => 
+        options.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:3000")));
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -33,6 +37,7 @@ namespace Web
       {
         app.UseDeveloperExceptionPage();
       }
+      app.UseCors();
       app.UseRouting();
       app.UseEndpoints(endpoints =>
       {
