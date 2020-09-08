@@ -1,14 +1,31 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TodoServer.Web.Context;
 
 namespace Web
 {
   public class Startup
   {
-    public void ConfigureServices(IServiceCollection services) { }
+    public IConfiguration configuration { get; }
+
+    public Startup(IConfiguration configuration)
+    {
+      this.configuration = configuration;
+    }
+
+    public void ConfigureServices(IServiceCollection services) 
+    {
+      // DbContext
+      services
+        .AddEntityFrameworkNpgsql()
+        .AddDbContext<AppDbContext>(options => 
+          options.UseNpgsql(this.configuration["ConnectionString:PostgreSQL:TodosServer"]));
+    }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
