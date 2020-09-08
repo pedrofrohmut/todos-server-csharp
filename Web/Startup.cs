@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +11,6 @@ namespace Web
   public class Startup
   {
     public IConfiguration configuration { get; }
-    private readonly string MyAllowSpecificOrigin = "_myAllowSpecificOrigin";
 
     public Startup(IConfiguration configuration)
     {
@@ -21,6 +19,8 @@ namespace Web
 
     public void ConfigureServices(IServiceCollection services) 
     {
+      // Controllers
+      services.AddControllers();
       // DbContext
       services
         .AddEntityFrameworkNpgsql()
@@ -39,13 +39,7 @@ namespace Web
       }
       app.UseCors();
       app.UseRouting();
-      app.UseEndpoints(endpoints =>
-      {
-        endpoints.MapGet("/", async context =>
-        {
-          await context.Response.WriteAsync("Hello World!");
-        });
-      });
+      app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
   }
 }
