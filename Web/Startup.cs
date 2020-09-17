@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TodoServer.Web.Context;
+using TodoServer.Web.Services;
+using TodoServer.Web.UseCases;
 
 namespace Web
 {
@@ -26,9 +28,16 @@ namespace Web
         .AddEntityFrameworkNpgsql()
         .AddDbContext<AppDbContext>(options => 
           options.UseNpgsql(this.configuration["ConnectionString:PostgreSQL:TodosServer"]));
+      services.AddTransient<AppDbContext>();
       // CORS
       services.AddCors(options => 
         options.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:3000")));
+      // UseCases
+      services.AddTransient<CreateUserUseCase>();
+      // Services
+      services.AddTransient<FindUserByEmailService>();
+      services.AddTransient<HashPasswordService>();
+      services.AddTransient<CreateUserService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
