@@ -1,4 +1,7 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TodoServer.Web.UseCases;
+using TodosServer.Web.Exceptions;
 
 namespace TodoServer.Web.Controllers
 {
@@ -6,10 +9,36 @@ namespace TodoServer.Web.Controllers
   [ApiController]
   public class LoginUserController : ControllerBase
   {
-    [HttpPost]
-    public ActionResult Index()
+    private readonly LoginUserUseCase useCase;
+
+    public LoginUserController(LoginUserUseCase useCase)
     {
-      return Ok("Log in User Controller");
+      this.useCase = useCase;
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Index([FromBody] RequestBody requestBody)
+    {
+      try {
+        var signedInUser = 
+          await this.useCase.GetSignedInUser(requestBody.Email, requestBody.Password);
+        return Ok(new { 
+            httpStatus = 200,
+            action = "LoginUserController [POST]", 
+            message = "User logged in", 
+            data = signedInUser 
+        });
+      } catch (UserNotFoundByEmailException e) {
+        return NotFound(e.Message);
+      } catch (UserPasswordMismatchException e) {
+        return BadRequest(e.Message);
+      }
+    }
+
+    public class RequestBody
+    {
+      public string Email { get; set; }
+      public string Password { get; set; }
     }
   }
 }

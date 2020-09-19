@@ -36,11 +36,14 @@ namespace Web
       // UseCases
       services.AddTransient<CreateUserUseCase>();
       services.AddTransient<FindAllUsersUseCase>();
+      services.AddTransient<LoginUserUseCase>();
       // Services
       services.AddTransient<FindUserByEmailService>();
       services.AddTransient<HashPasswordService>();
       services.AddTransient<CreateUserService>();
       services.AddTransient<FindAllUsersService>();
+      services.AddTransient<IsPasswordMatchService>();
+      services.AddTransient<GetSignInTokenService>();
       // Utils
       services.AddTransient<TextFormatter>();
     }

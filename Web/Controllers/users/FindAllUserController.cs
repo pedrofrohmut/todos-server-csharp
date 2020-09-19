@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TodoServer.Web.Entities;
 using TodoServer.Web.UseCases;
 
-namespace TodoServer.Web.Controlllers
+namespace TodoServer.Web.Controllers
 {
   [Route("api/v1/users")]
   [ApiController]
@@ -20,7 +20,12 @@ namespace TodoServer.Web.Controlllers
     public async System.Threading.Tasks.Task<ActionResult> Index()
     {
       IEnumerable<User> allUsers = await this.useCase.FindAllUsers();
-      return Ok(allUsers);
+      return Ok(new {
+        httpStatus = 200,
+        action = "FindAllUsersController [GET]",
+        message = "All Users found",
+        data = allUsers
+      });
     }
   }
 }

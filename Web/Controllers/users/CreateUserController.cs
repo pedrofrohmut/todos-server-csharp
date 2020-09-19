@@ -30,7 +30,12 @@ namespace TodoServer.Web.Controllers
           Password = requestBody.Password
         };
         await this.useCase.CreateUser(user);
-        return StatusCode(201);
+        // Empty string to satisfy method signature
+        return Created("", new {
+          httpStatus = 201,
+          action = "CreateUserController [POST]",
+          message = "User Created"
+        });
       } catch (ArgumentException e) {
         return BadRequest( new {
           errorMessage = "[BadRequest] Invalid user information: " + e.Message
