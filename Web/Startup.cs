@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using TodoServer.Web.Context;
 using TodoServer.Web.Services;
 using TodoServer.Web.UseCases;
+using TodoServer.Web.Utils;
 
 namespace Web
 {
@@ -38,6 +39,8 @@ namespace Web
       services.AddTransient<FindUserByEmailService>();
       services.AddTransient<HashPasswordService>();
       services.AddTransient<CreateUserService>();
+      // Utils
+      services.AddTransient<TextFormatter>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
