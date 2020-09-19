@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using TodoServer.Web.Entities;
+using TodoServer.Web.UseCases;
 
 namespace TodoServer.Web.Controlllers
 {
@@ -6,10 +9,18 @@ namespace TodoServer.Web.Controlllers
   [ApiController]
   public class FindAllUsersController : ControllerBase
   {
-    [HttpGet]
-    public ActionResult Index()
+    private readonly FindAllUsersUseCase useCase;
+
+    public FindAllUsersController(FindAllUsersUseCase useCase)
     {
-      return Ok("Find All Users Controller");
+      this.useCase = useCase;
+    }
+
+    [HttpGet]
+    public async System.Threading.Tasks.Task<ActionResult> Index()
+    {
+      IEnumerable<User> allUsers = await this.useCase.FindAllUsers();
+      return Ok(allUsers);
     }
   }
 }

@@ -35,10 +35,12 @@ namespace Web
         options.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:3000")));
       // UseCases
       services.AddTransient<CreateUserUseCase>();
+      services.AddTransient<FindAllUsersUseCase>();
       // Services
       services.AddTransient<FindUserByEmailService>();
       services.AddTransient<HashPasswordService>();
       services.AddTransient<CreateUserService>();
+      services.AddTransient<FindAllUsersService>();
       // Utils
       services.AddTransient<TextFormatter>();
     }
