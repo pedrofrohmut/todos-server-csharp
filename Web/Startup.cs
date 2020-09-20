@@ -37,6 +37,7 @@ namespace Web
       services.AddTransient<CreateUserUseCase>();
       services.AddTransient<FindAllUsersUseCase>();
       services.AddTransient<LoginUserUseCase>();
+      services.AddTransient<AuthenticateUserUseCase>();
       // Services
       services.AddTransient<FindUserByEmailService>();
       services.AddTransient<HashPasswordService>();
@@ -44,6 +45,8 @@ namespace Web
       services.AddTransient<FindAllUsersService>();
       services.AddTransient<IsPasswordMatchService>();
       services.AddTransient<GetSignInTokenService>();
+      services.AddTransient<DecodeTokenService>();
+      services.AddTransient<FindUserByIdService>();
       // Utils
       services.AddTransient<TextFormatter>();
     }

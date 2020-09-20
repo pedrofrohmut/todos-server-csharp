@@ -1,4 +1,7 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TodoServer.Web.Exceptions;
+using TodoServer.Web.UseCases;
 
 namespace TodoServer.Web.Controllers
 {
@@ -6,10 +9,32 @@ namespace TodoServer.Web.Controllers
   [ApiController]
   public class AuthenticateUserController : ControllerBase
   {
-    [HttpGet]
-    public ActionResult Index()
+    private readonly AuthenticateUserUseCase useCase;
+
+    public AuthenticateUserController(AuthenticateUserUseCase useCase)
     {
-      return Ok("Authenticate User Controller");
+      this.useCase = useCase;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> Index()
+    {
+      try {
+        var token = Request.Headers["x-auth-token"];
+        var signedInUser = await this.useCase.AuthenticateUserByToken(token);
+        return Ok(new {
+          httpStatus = 200,
+          action = "AuthenticateUserController [GET]",
+          message = "User Authenticated",
+          data = signedInUser
+        });
+      } catch (MissingRequestAuthTokenException e) {
+        return BadRequest(e.Message);
+      } catch (InvalidRequestAuthTokenException e) {
+        return BadRequest(e.Message);
+      } catch (UserNotFoundByIdException e) {
+        return BadRequest(e.Message);
+      }
     }
   }
 }

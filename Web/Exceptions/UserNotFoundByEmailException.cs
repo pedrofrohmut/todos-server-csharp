@@ -6,8 +6,10 @@ namespace TodosServer.Web.Exceptions
   {
     public UserNotFoundByEmailException() { }
      
-    public UserNotFoundByEmailException(string message) : base (message) { }
+    public UserNotFoundByEmailException(string message) 
+      : base (message) { }
 
-    public UserNotFoundByEmailException(string message, Exception inner) : base (message, inner) { }
+    public UserNotFoundByEmailException(string message, Exception inner) 
+      : base (message, inner) { }
   }
 }

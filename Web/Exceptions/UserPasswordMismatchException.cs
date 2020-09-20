@@ -6,8 +6,10 @@ namespace TodosServer.Web.Exceptions
   {
     public UserPasswordMismatchException() { }
      
-    public UserPasswordMismatchException(string message) : base (message) { }
+    public UserPasswordMismatchException(string message) 
+      : base (message) { }
 
-    public UserPasswordMismatchException(string message, Exception inner) : base (message, inner) { }
+    public UserPasswordMismatchException(string message, Exception inner) 
+      : base (message, inner) { }
   }
 }

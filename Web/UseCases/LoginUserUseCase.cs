@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using TodoServer.Web.Services;
 using TodosServer.Web.Exceptions;
 
@@ -19,7 +20,7 @@ namespace TodoServer.Web.UseCases
       this.getSignInTokenService = getSignInTokenService;
     }
 
-    public async System.Threading.Tasks.Task<object> GetSignedInUser(string email, string password)
+    public async Task<object> GetSignedInUser(string email, string password)
     {
       // TODO: validate e-mail
       var user = await this.findUserByEmailService.Execute(email);

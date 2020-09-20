@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoServer.Web.Entities;
 using TodoServer.Web.UseCases;
@@ -17,7 +18,7 @@ namespace TodoServer.Web.Controllers
     }
 
     [HttpGet]
-    public async System.Threading.Tasks.Task<ActionResult> Index()
+    public async Task<ActionResult> Index()
     {
       IEnumerable<User> allUsers = await this.useCase.FindAllUsers();
       return Ok(new {
