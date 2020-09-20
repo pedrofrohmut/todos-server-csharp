@@ -1,12 +1,26 @@
+using System;
 using System.Threading.Tasks;
+using JWT.Algorithms;
+using JWT.Builder;
+using Microsoft.Extensions.Configuration;
 
 namespace TodoServer.Web.Services
 {
   public class GetSignInTokenService
   {
-    public async Task<string> Execute(string userId)
+    private readonly IConfiguration configuration;
+
+    public GetSignInTokenService(IConfiguration configuration)
     {
-      return "STUB_SIGN_IN_TOKEN";
+      this.configuration = configuration;
     }
+
+    public async Task<string> Execute(string userId) =>
+      new JwtBuilder()
+        .WithAlgorithm(new HMACSHA256Algorithm())
+        .WithSecret(this.configuration["JwtSecret"])
+        .AddClaim("userId", userId)
+        .AddClaim("exp", DateTimeOffset.UtcNow.AddDays(1).ToUnixTimeSeconds())
+        .Encode();
   }
 }
