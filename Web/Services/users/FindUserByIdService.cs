@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TodoServer.Web.Context;
 using TodoServer.Web.Entities;
@@ -14,7 +13,7 @@ namespace TodoServer.Web.Services
       this.context = context;
     }
 
-    public async Task<User> Execute(string userId) =>
+    public async System.Threading.Tasks.Task<User> Execute(string userId) =>
       await this.context.Users.FirstOrDefaultAsync(user => user.Id == userId);
   }
 }

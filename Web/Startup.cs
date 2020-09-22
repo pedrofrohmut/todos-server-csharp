@@ -8,7 +8,7 @@ using TodoServer.Web.Context;
 using TodoServer.Web.Services;
 using TodoServer.Web.UseCases;
 using TodoServer.Web.Utils;
-using TodosServer.Web.Middlewares;
+using TodoServer.Web.Middlewares;
 
 namespace Web
 {
@@ -30,7 +30,6 @@ namespace Web
         .AddEntityFrameworkNpgsql()
         .AddDbContext<AppDbContext>(options => 
           options.UseNpgsql(this.configuration["ConnectionString:PostgreSQL:TodosServer"]));
-      services.AddTransient<AppDbContext>();
       // CORS
       services.AddCors(options => 
         options.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:3000")));
@@ -50,6 +49,8 @@ namespace Web
       services.AddTransient<FindUserByIdService>();
       // Utils
       services.AddTransient<TextFormatter>();
+      // Middlewares
+      services.AddTransient<FactoryActivatedMiddleware>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -57,7 +58,9 @@ namespace Web
       if (env.IsDevelopment()) {
         app.UseDeveloperExceptionPage();
       }
-      app.UseAuthenticationTokenVerifier();
+      app.UseAuthenticationTokenVerifierMiddleware();
+      // Using IMiddleware (MiddlewareFactory) so that not singleton services can be used
+      app.UseFactoryAcitivatedMiddleware();
       app.UseCors();
       app.UseRouting();
       app.UseEndpoints(endpoints => endpoints.MapControllers());
