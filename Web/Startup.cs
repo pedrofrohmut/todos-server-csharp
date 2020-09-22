@@ -8,6 +8,7 @@ using TodoServer.Web.Context;
 using TodoServer.Web.Services;
 using TodoServer.Web.UseCases;
 using TodoServer.Web.Utils;
+using TodosServer.Web.Middlewares;
 
 namespace Web
 {
@@ -53,10 +54,10 @@ namespace Web
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-      if (env.IsDevelopment())
-      {
+      if (env.IsDevelopment()) {
         app.UseDeveloperExceptionPage();
       }
+      app.UseAuthenticationTokenVerifier();
       app.UseCors();
       app.UseRouting();
       app.UseEndpoints(endpoints => endpoints.MapControllers());

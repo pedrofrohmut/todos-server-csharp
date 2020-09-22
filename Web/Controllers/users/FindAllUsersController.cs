@@ -6,7 +6,7 @@ using TodoServer.Web.UseCases;
 
 namespace TodoServer.Web.Controllers
 {
-  [Route("api/v1/users")]
+  [Route("api/v1/private/users")]
   [ApiController]
   public class FindAllUsersController : ControllerBase
   {
