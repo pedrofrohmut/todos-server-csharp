@@ -1,16 +1,17 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using TodoServer.Web.Context;
+using TodoServer.Web.UseCases;
 
 namespace TodoServer.Web.Middlewares
 {
   public class FactoryActivatedMiddleware : IMiddleware
   {
-    private readonly AppDbContext dbContext;
+    private readonly AuthenticationTokenVerifierUseCase useCase;
 
-    public FactoryActivatedMiddleware(AppDbContext dbContext)
+    public FactoryActivatedMiddleware(
+        AuthenticationTokenVerifierUseCase useCase)
     {
-      this.dbContext = dbContext;
+      this.useCase = useCase;
     }
 
     public async Task InvokeAsync(HttpContext httpContext, RequestDelegate next)

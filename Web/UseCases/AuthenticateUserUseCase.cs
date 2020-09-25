@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using JWT.Exceptions;
 using TodoServer.Web.Entities;
 using TodoServer.Web.Exceptions;
 using TodoServer.Web.Services;
@@ -24,7 +25,13 @@ namespace TodoServer.Web.UseCases
         throw new MissingRequestAuthTokenException(
             "The Auth Token is missing in the request headers");
       }
-      dynamic decodedToken = await this.decodeTokenService.Execute(token);
+      dynamic decodedToken = null;
+      try {
+        decodedToken = await this.decodeTokenService.Execute(token);
+      } catch (TokenExpiredException e) {
+        throw new TokenExpiredException(
+            "Authentication token has expired");
+      }
       if (decodedToken == null || decodedToken["userId"] == null) {
         throw new InvalidRequestAuthTokenException(
             "Request Auth Token is invalid and/or could not be decoded");

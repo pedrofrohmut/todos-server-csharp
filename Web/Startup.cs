@@ -38,6 +38,7 @@ namespace Web
       services.AddTransient<FindAllUsersUseCase>();
       services.AddTransient<LoginUserUseCase>();
       services.AddTransient<AuthenticateUserUseCase>();
+      services.AddTransient<AuthenticationTokenVerifierUseCase>();
       // Services
       services.AddTransient<FindUserByEmailService>();
       services.AddTransient<HashPasswordService>();

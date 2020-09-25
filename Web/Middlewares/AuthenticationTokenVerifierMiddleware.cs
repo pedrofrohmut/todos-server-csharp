@@ -1,9 +1,8 @@
-using System;
+using JWT.Exceptions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using TodoServer.Web.Context;
-using TodoServer.Web.Entities;
+using TodoServer.Web.Exceptions;
 using TodoServer.Web.Services;
+using TodoServer.Web.UseCases;
 
 namespace TodoServer.Web.Middlewares
 {
@@ -20,33 +19,30 @@ namespace TodoServer.Web.Middlewares
       this.decodeTokenService = decodeTokenService;
     }
 
-    public async System.Threading.Tasks.Task InvokeAsync(HttpContext ctx, AppDbContext db)
+    public async System.Threading.Tasks.Task InvokeAsync(
+        HttpContext ctx, 
+        AuthenticationTokenVerifierUseCase useCase)
     {
       var req = ctx.Request;
       var res = ctx.Response;
       string token =  req.Headers["x-auth-token"];
-      if (req.Path.ToString().Contains("private") && string.IsNullOrEmpty(token)) {
+      string path = req.Path.ToString();
+      try {
+        await useCase.VerifyAuthenticationToken(path, token);
+        await this.next(ctx);
+      } catch (MissingRequestAuthTokenException e) {
         res.StatusCode = 401;
-        await res.WriteAsync("Not authenticated, Authentication token either missing or invalid");
+        await res.WriteAsync(e.Message);
+      } catch (TokenExpiredException e) {
+        res.StatusCode = 401;
+        await res.WriteAsync(e.Message);
+      } catch (InvalidRequestAuthTokenException e) {
+        res.StatusCode = 401;
+        await res.WriteAsync(e.Message);
+      } catch (InvalidUserFromTokenException e) {
+        res.StatusCode = 401;
+        await res.WriteAsync(e.Message);
       }
-      if (req.Path.ToString().Contains("private") && !string.IsNullOrEmpty(token)) {
-        dynamic payload = await this.decodeTokenService.Execute(token);
-        string userId = payload["userId"];
-        if (string.IsNullOrEmpty(userId)) {
-          res.StatusCode = 401;
-          await res.WriteAsync(
-              "The authentication token is invalid and the user could not be authenticated");
-        }
-        User userFromToken = await db.Users.FirstOrDefaultAsync(user => user.Id == userId);
-        if (userFromToken == null) {
-          res.StatusCode = 401;
-          await res.WriteAsync(
-              $"No user found with the token provided. The request is not authorized.");
-        } else {
-          Console.WriteLine("User found. Request Authorized!");
-        }
-      }
-      await this.next(ctx);
     }
   }
 }

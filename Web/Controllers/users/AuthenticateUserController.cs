@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using JWT.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using TodoServer.Web.Exceptions;
 using TodoServer.Web.UseCases;
@@ -29,6 +30,8 @@ namespace TodoServer.Web.Controllers
           data = signedInUser
         });
       } catch (MissingRequestAuthTokenException e) {
+        return BadRequest(e.Message);
+      } catch (TokenExpiredException e) {
         return BadRequest(e.Message);
       } catch (InvalidRequestAuthTokenException e) {
         return BadRequest(e.Message);
