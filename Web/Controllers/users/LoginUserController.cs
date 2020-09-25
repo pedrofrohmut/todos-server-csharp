@@ -5,7 +5,7 @@ using TodosServer.Web.Exceptions;
 
 namespace TodoServer.Web.Controllers
 {
-  [Route("api/v1/users/login")]
+  [Route("api/v1/public/users/login")]
   [ApiController]
   public class LoginUserController : ControllerBase
   {

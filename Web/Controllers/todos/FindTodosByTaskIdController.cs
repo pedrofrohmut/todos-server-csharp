@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TodoServer.Web.Controllers
 {
-  [Route("api/v1/todos/task/{id}")]
+  [Route("api/v1/private/todos/task/{id}")]
   [ApiController]
   public class FindTodosByTaskIdController : ControllerBase
   {

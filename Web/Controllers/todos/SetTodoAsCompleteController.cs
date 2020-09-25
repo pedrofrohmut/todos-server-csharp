@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TodoServer.Web.Controllers
 {
-  [Route("api/v1/todos/{id}/iscomplete")]
+  [Route("api/v1/private/todos/{id}/iscomplete")]
   [ApiController]
   public class SetTodoAsCompleteController : ControllerBase
   {
