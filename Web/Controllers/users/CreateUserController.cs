@@ -37,13 +37,9 @@ namespace TodoServer.Web.Controllers
           message = "User Created"
         });
       } catch (ArgumentException e) {
-        return BadRequest( new {
-          errorMessage = "[BadRequest] Invalid user information: " + e.Message
-        });
+        return BadRequest(e.Message);
       } catch (EmailAlreadyTakenException e) {
-        return BadRequest(new {
-          errorMessage = "[Bad Request] Email already taken: " + e.Message
-        });
+        return BadRequest(e.Message);
       }
     }
 

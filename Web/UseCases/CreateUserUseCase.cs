@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using TodoServer.Web.Entities;
 using TodoServer.Web.Exceptions;
 using TodoServer.Web.Services;
@@ -26,7 +25,7 @@ namespace TodoServer.Web.UseCases
       this.textFormatter = textFormatter;
     }
 
-    public async Task<bool> CreateUser(User user)
+    public async System.Threading.Tasks.Task CreateUser(User user)
     {
       // Validate user fields
       if (string.IsNullOrWhiteSpace(user.FirstName)) {
@@ -61,8 +60,6 @@ namespace TodoServer.Web.UseCases
         Password = hashedPassword
       };
       await this.createUserService.Execute(newUser);
-
-      return true;
     }
   }
 }
