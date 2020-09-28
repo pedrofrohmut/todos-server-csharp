@@ -43,6 +43,7 @@ namespace Web
       services.AddTransient<DeleteTaskUseCase>();
       services.AddTransient<FindTaskByIdUseCase>();
       services.AddTransient<FindTasksByUserIdUseCase>();
+      services.AddTransient<UpdateTaskUseCase>();
       // Services
       services.AddTransient<FindUserByEmailService>();
       services.AddTransient<HashPasswordService>();
@@ -56,6 +57,7 @@ namespace Web
       services.AddTransient<FindTasksByUserIdService>();
       services.AddTransient<FindTaskByIdService>();
       services.AddTransient<DeleteTaskByIdService>();
+      services.AddTransient<UpdateTaskService>();
       // Utils
       services.AddTransient<TextFormatter>();
       // Middlewares
