@@ -7,11 +7,11 @@ namespace TodoServer.Web.Controllers
 {
   [Route("api/v1/private/tasks/user/{userId}")]
   [ApiController]
-  public class FindTaskByUserIdController : ControllerBase
+  public class FindTasksByUserIdController : ControllerBase
   {
     private readonly FindTasksByUserIdUseCase useCase;
 
-    public FindTaskByUserIdController(FindTasksByUserIdUseCase useCase)
+    public FindTasksByUserIdController(FindTasksByUserIdUseCase useCase)
     {
       this.useCase = useCase;
     }
@@ -20,7 +20,7 @@ namespace TodoServer.Web.Controllers
     public async Task<ActionResult> Index([FromRoute] string userId)
     {
       try {
-        var tasks = this.useCase.GetTasksByUserId(userId);
+        var tasks = await this.useCase.GetTasksByUserId(userId);
         return Ok(new {
           httpStatus = 200,
           action = "FindTaskByUserIdController [GET]",

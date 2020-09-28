@@ -17,7 +17,7 @@ namespace TodoServer.Web.Services
 
     public async System.Threading.Tasks.Task<IEnumerable<Task>> Execute(string userId) =>
       await this.context.Tasks
-              .Where(task => task.UserId == userId)
-              .ToListAsync();
+        .Where(task => task.UserId == userId)
+        .ToListAsync();
   }
 }
