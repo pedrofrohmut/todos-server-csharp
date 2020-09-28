@@ -40,8 +40,9 @@ namespace Web
       services.AddTransient<AuthenticateUserUseCase>();
       services.AddTransient<AuthenticationTokenVerifierUseCase>();
       services.AddTransient<CreateTaskUseCase>();
-      services.AddTransient<FindTasksByUserIdUseCase>();
       services.AddTransient<DeleteTaskUseCase>();
+      services.AddTransient<FindTaskByIdUseCase>();
+      services.AddTransient<FindTasksByUserIdUseCase>();
       // Services
       services.AddTransient<FindUserByEmailService>();
       services.AddTransient<HashPasswordService>();
