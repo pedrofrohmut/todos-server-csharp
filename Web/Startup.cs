@@ -23,8 +23,9 @@ namespace Web
 
     public void ConfigureServices(IServiceCollection services) 
     {
-      // Controllers
       services.AddControllers();
+      AddUseCases(services);
+      AddServices(services);
       // DbContext
       services
         .AddEntityFrameworkNpgsql()
@@ -33,31 +34,6 @@ namespace Web
       // CORS
       services.AddCors(options => 
         options.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:3000")));
-      // UseCases
-      services.AddTransient<CreateUserUseCase>();
-      services.AddTransient<FindAllUsersUseCase>();
-      services.AddTransient<LoginUserUseCase>();
-      services.AddTransient<AuthenticateUserUseCase>();
-      services.AddTransient<AuthenticationTokenVerifierUseCase>();
-      services.AddTransient<CreateTaskUseCase>();
-      services.AddTransient<DeleteTaskUseCase>();
-      services.AddTransient<FindTaskByIdUseCase>();
-      services.AddTransient<FindTasksByUserIdUseCase>();
-      services.AddTransient<UpdateTaskUseCase>();
-      // Services
-      services.AddTransient<FindUserByEmailService>();
-      services.AddTransient<HashPasswordService>();
-      services.AddTransient<CreateUserService>();
-      services.AddTransient<FindAllUsersService>();
-      services.AddTransient<IsPasswordMatchService>();
-      services.AddTransient<GetSignInTokenService>();
-      services.AddTransient<DecodeTokenService>();
-      services.AddTransient<FindUserByIdService>();
-      services.AddTransient<CreateTaskService>();
-      services.AddTransient<FindTasksByUserIdService>();
-      services.AddTransient<FindTaskByIdService>();
-      services.AddTransient<DeleteTaskByIdService>();
-      services.AddTransient<UpdateTaskService>();
       // Utils
       services.AddTransient<TextFormatter>();
       // Middlewares
@@ -75,6 +51,46 @@ namespace Web
       app.UseCors();
       app.UseRouting();
       app.UseEndpoints(endpoints => endpoints.MapControllers());
+    }
+
+    private void AddUseCases(IServiceCollection services)
+    {
+      // Users
+      services.AddTransient<CreateUserUseCase>();
+      services.AddTransient<FindAllUsersUseCase>();
+      services.AddTransient<LoginUserUseCase>();
+      services.AddTransient<AuthenticateUserUseCase>();
+      // Auth
+      services.AddTransient<AuthenticationTokenVerifierUseCase>();
+      // Tasks
+      services.AddTransient<CreateTaskUseCase>();
+      services.AddTransient<DeleteTaskUseCase>();
+      services.AddTransient<FindTaskByIdUseCase>();
+      services.AddTransient<FindTasksByUserIdUseCase>();
+      services.AddTransient<UpdateTaskUseCase>();
+      // Todos
+      services.AddTransient<CreateTodoUseCase>();
+    }
+
+    private void AddServices(IServiceCollection services)
+    {
+      // Users
+      services.AddTransient<FindUserByEmailService>();
+      services.AddTransient<HashPasswordService>();
+      services.AddTransient<CreateUserService>();
+      services.AddTransient<FindAllUsersService>();
+      services.AddTransient<IsPasswordMatchService>();
+      services.AddTransient<GetSignInTokenService>();
+      services.AddTransient<DecodeTokenService>();
+      services.AddTransient<FindUserByIdService>();
+      // Tasks
+      services.AddTransient<CreateTaskService>();
+      services.AddTransient<FindTasksByUserIdService>();
+      services.AddTransient<FindTaskByIdService>();
+      services.AddTransient<DeleteTaskByIdService>();
+      services.AddTransient<UpdateTaskService>();
+      // Todos
+      services.AddTransient<CreateTodoService>();
     }
   }
 }
