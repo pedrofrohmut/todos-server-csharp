@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoServer.Web.Exceptions;
@@ -27,6 +28,8 @@ namespace TodoServer.Web.Controllers
           message = "Todos found",
           data = todos
         });
+      } catch (ArgumentNullException e) {
+        return BadRequest(e.Message);
       } catch (TaskNotFoundByIdException e) {
         return BadRequest(e.Message);
       }

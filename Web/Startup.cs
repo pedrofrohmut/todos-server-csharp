@@ -71,6 +71,7 @@ namespace Web
       // Todos
       services.AddTransient<CreateTodoUseCase>();
       services.AddTransient<FindTodosByTaskIdUseCase>();
+      services.AddTransient<FindTodoByIdUseCase>();
     }
 
     private void AddServices(IServiceCollection services)
@@ -93,6 +94,7 @@ namespace Web
       // Todos
       services.AddTransient<CreateTodoService>();
       services.AddTransient<FindTodosByTaskIdService>();
+      services.AddTransient<FindTodoByIdService>();
     }
   }
 }
