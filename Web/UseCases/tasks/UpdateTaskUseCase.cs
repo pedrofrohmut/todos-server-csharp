@@ -20,6 +20,10 @@ namespace TodoServer.Web.UseCases
 
     public async System.Threading.Tasks.Task UpdateTask(Task updatedTask)
     {
+      if (string.IsNullOrWhiteSpace(updatedTask.Id)) {
+        throw new ArgumentNullException(
+            "The TaskId is Required to update a task");
+      }
       if (string.IsNullOrWhiteSpace(updatedTask.Name)) {
         throw new ArgumentNullException(
             "The Name is Required to update a task");
