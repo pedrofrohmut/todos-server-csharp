@@ -70,6 +70,7 @@ namespace Web
       services.AddTransient<UpdateTaskUseCase>();
       // Todos
       services.AddTransient<CreateTodoUseCase>();
+      services.AddTransient<FindTodosByTaskIdUseCase>();
     }
 
     private void AddServices(IServiceCollection services)
@@ -91,6 +92,7 @@ namespace Web
       services.AddTransient<UpdateTaskService>();
       // Todos
       services.AddTransient<CreateTodoService>();
+      services.AddTransient<FindTodosByTaskIdService>();
     }
   }
 }
