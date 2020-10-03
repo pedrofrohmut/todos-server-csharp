@@ -76,6 +76,7 @@ namespace Web
       services.AddTransient<DeleteTodoUseCase>();
       services.AddTransient<SetTodoAsCompleteUseCase>();
       services.AddTransient<SetTodoAsNotCompleteUseCase>();
+      services.AddTransient<ClearCompleteTodosByTaskIdUseCase>();
     }
 
     private void AddServices(IServiceCollection services)
@@ -103,6 +104,7 @@ namespace Web
       services.AddTransient<DeleteTodoService>();
       services.AddTransient<SetTodoAsCompleteService>();
       services.AddTransient<SetTodoAsNotCompleteService>();
+      services.AddTransient<ClearCompleteTodosByTaskIdService>();
     }
   }
 }
