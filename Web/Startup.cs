@@ -74,6 +74,8 @@ namespace Web
       services.AddTransient<FindTodoByIdUseCase>();
       services.AddTransient<UpdateTodoUseCase>();
       services.AddTransient<DeleteTodoUseCase>();
+      services.AddTransient<SetTodoAsCompleteUseCase>();
+      services.AddTransient<SetTodoAsNotCompleteUseCase>();
     }
 
     private void AddServices(IServiceCollection services)
@@ -99,6 +101,8 @@ namespace Web
       services.AddTransient<FindTodoByIdService>();
       services.AddTransient<UpdateTodoService>();
       services.AddTransient<DeleteTodoService>();
+      services.AddTransient<SetTodoAsCompleteService>();
+      services.AddTransient<SetTodoAsNotCompleteService>();
     }
   }
 }
