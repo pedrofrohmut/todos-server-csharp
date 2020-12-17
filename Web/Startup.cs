@@ -32,8 +32,6 @@ namespace Web
         .AddDbContext<AppDbContext>(options => 
           options.UseNpgsql(this.configuration["ConnectionString:PostgreSQL:TodosServer"]));
       // CORS
-      /* services.AddCors(options => */ 
-      /*   options.AddPolicy("ReactClient", builder => builder.WithOrigins("http://localhost:3000"))); */
       services.AddCors();
       // Utils
       services.AddTransient<TextFormatter>();
