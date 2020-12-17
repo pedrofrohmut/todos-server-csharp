@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TodoServer.Web.Context;
 using TodoServer.Web.Services;
 using TodoServer.Web.UseCases;
 using TodoServer.Web.Utils;
 using TodoServer.Web.Middlewares;
+using TodoServer.Web.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Web
 {
@@ -32,8 +32,9 @@ namespace Web
         .AddDbContext<AppDbContext>(options => 
           options.UseNpgsql(this.configuration["ConnectionString:PostgreSQL:TodosServer"]));
       // CORS
-      services.AddCors(options => 
-        options.AddDefaultPolicy(builder => builder.WithOrigins("http://localhost:3000")));
+      /* services.AddCors(options => */ 
+      /*   options.AddPolicy("ReactClient", builder => builder.WithOrigins("http://localhost:3000"))); */
+      services.AddCors();
       // Utils
       services.AddTransient<TextFormatter>();
       // Middlewares
@@ -48,7 +49,7 @@ namespace Web
       app.UseAuthenticationTokenVerifierMiddleware();
       // Using IMiddleware (MiddlewareFactory) so that not singleton services can be used
       app.UseFactoryAcitivatedMiddleware();
-      app.UseCors();
+      app.UseCors(builder => builder.AllowAnyHeader().AllowAnyOrigin());
       app.UseRouting();
       app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
