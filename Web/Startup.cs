@@ -44,10 +44,15 @@ namespace Web
       if (env.IsDevelopment()) {
         app.UseDeveloperExceptionPage();
       }
+      // CORS
+      app.UseCors(builder => 
+          builder
+            .WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
       app.UseAuthenticationTokenVerifierMiddleware();
       // Using IMiddleware (MiddlewareFactory) so that not singleton services can be used
       app.UseFactoryAcitivatedMiddleware();
-      app.UseCors(builder => builder.AllowAnyHeader().AllowAnyOrigin());
       app.UseRouting();
       app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
